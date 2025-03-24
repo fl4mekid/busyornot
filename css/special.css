@@ -1,0 +1,391 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Temel Animasyonlar */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Temel Stiller */
+.neo-gradient {
+    background: linear-gradient(135deg, #007667 0%, #009f8b 100%); /* En koyu tondan koyuya geçiş */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.title-shadow {
+    text-shadow: 0 0 0px rgba(0, 0, 0, 0.5),
+                 2px 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+.status-busy {
+    color: #FF4D6D; /* En açık pembe - FF4D6D */
+    text-shadow: 0 0 0px rgba(0, 0, 0, 0.5),
+                 2px 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+.status-available {
+    color: #48fb00; /* En açık ton */
+    text-shadow: 0 0 0px rgba(0, 0, 0, 0.5),
+                 2px 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+.text-shadow {
+    text-shadow: 0 0 0px rgba(0, 0, 0, 0.5),
+                 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.3);
+}
+
+/* Slide Paneller */
+.slide-panel-available {
+    background: linear-gradient(135deg, #007667 50%, #00d8bd 100%); /* En koyu tondan koyuya geçiş */
+}
+
+.slide-panel-busy {
+    background: linear-gradient(135deg, #590D22 0%, #800F2F 100%); /* En koyu bordo'dan koyuya geçiş */
+    backdrop-filter: blur(10px);
+}
+
+/* Toplantı Kartları */
+.meeting-card {
+    background: rgba(0, 0, 0, 0.25);
+    color: white;
+    padding: 14px;
+    border-radius: 16px;
+    width: 180px;
+    position: relative;
+    font-size: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.meeting-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    border-color: rgba(255, 255, 255, 0.25);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.meeting-title {
+    font-size: 1rem;
+    margin-bottom: 6px;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: none;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.meeting-time {
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    text-transform: none;
+    font-weight: 500;
+    color: #FFFFFF; /* Tam beyaz, opacity yok */
+    padding-left: 2px;
+}
+
+.meeting-organizer {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: none;
+    padding-left: 2px;
+}
+
+.meeting-date {
+    font-size: 0.625rem; /* 10px */
+    color: #FFFFFF; /* Tam beyaz, opacity yok */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: capitalize;
+}
+
+/* Bağlantı Çizgileri */
+.meeting-card:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -16px;
+    width: 16px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-50%);
+    transition: background 0.3s ease;
+}
+
+.meeting-card:hover::after {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+/* Scroll barı gizlemek için */
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Özel Scroll Çubuğu */
+.custom-scrollbar::-webkit-scrollbar {
+    height: 6px;
+    margin-top: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 100px;
+}
+
+/* Firefox için */
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #48fb00 rgba(255, 255, 255, 0.05);
+}
+
+/* Available Panel için özel scrollbar */
+.slide-panel-available .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #48fb00;
+    border-radius: 100px;
+}
+
+.slide-panel-available .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #48fb00;
+}
+
+/* Bağlantı çizgileri */
+.slide-panel-available .meeting-card:not(:last-child)::after {
+    background: #00ffdf;
+}
+
+.slide-panel-available .meeting-card:hover::after {
+    background: #00ffdf;
+}
+
+/* Sayaç rakamları */
+.slide-panel-available #futureHours,
+.slide-panel-available #futureMinutes,
+.slide-panel-available #futureSeconds {
+    color: #48fb00;
+}
+
+/* Responsive tasarım için */
+@media (max-width: 640px) {
+    .meeting-card {
+        width: 150px;
+        padding: 12px;
+    }
+
+    .meeting-title {
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+    }
+
+    .meeting-time {
+        font-size: 0.8rem;
+        margin-bottom: 4px;
+    }
+
+    .meeting-organizer {
+        font-size: 0.75rem;
+    }
+}
+
+/* Sayaç Stili */
+.inline-flex {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive tasarım için */
+@media (max-width: 640px) {
+    .inline-flex {
+        transform: scale(0.9);
+    }
+}
+
+/* Sayaç ve Toplantı Kartları Container - Available Panel içindekiler */
+.slide-panel-available .bg-black\/10 {
+    background: rgba(0, 189, 165, 0.2); /* #00bda5 - Orta ton */
+    border: 1px solid rgba(0, 216, 189, 0.1); /* #00d8bd - Açık ton */
+    backdrop-filter: blur(5px);
+}
+
+.slide-panel-available .bg-black\/20 {
+    background: rgba(0, 216, 189, 0.15); /* #00d8bd - Açık ton */
+}
+
+/* Meeting Kartları - Available Panel içindekiler */
+.slide-panel-available .meeting-card {
+    background: rgba(0, 159, 139, 0.95); /* #009f8b - Koyu ton */
+    border: 1px solid rgba(0, 189, 165, 0.3); /* #00bda5 - Orta ton */
+    box-shadow: 0 4px 6px rgba(0, 118, 103, 0.2); /* #007667 - En koyu ton */
+}
+
+.slide-panel-available .meeting-card:hover {
+    background: rgba(0, 189, 165, 0.95); /* #00bda5 - Orta ton */
+    border-color: rgba(0, 216, 189, 0.3); /* #00d8bd - Açık ton */
+}
+
+/* Başlık yazıları */
+.slide-panel-available .title-shadow {
+    color: #FFFFFF; /* Tam beyaz */
+}
+
+/* Available Panel kapatma butonu */
+.slide-panel-available button {
+    color: #FFFFFF;
+    transition: color 0.3s ease;
+}
+
+.slide-panel-available button:hover {
+    color: #00ffdf; /* En açık ton */
+}
+
+/* MEŞGUL Panel içindeki container'lar */
+.slide-panel-busy .bg-black\/10 {
+    background: rgba(168, 19, 60, 0.2); /* #A4133C - Orta ton */
+    border: 1px solid rgba(193, 24, 74, 0.1); /* #C9184A - Açık ton */
+    backdrop-filter: blur(5px);
+}
+
+.slide-panel-busy .bg-black\/20 {
+    background: rgba(193, 24, 74, 0.15); /* #C9184A - Açık ton */
+}
+
+/* MEŞGUL Panel içindeki kartlar */
+.slide-panel-busy .meeting-card {
+    background: rgba(128, 15, 47, 0.95); /* #800F2F - Koyu bordo */
+    border: 1px solid rgba(168, 19, 60, 0.3); /* #A4133C - Orta bordo */
+    box-shadow: 0 4px 6px rgba(89, 13, 34, 0.2); /* #590D22 - En koyu bordo */
+}
+
+.slide-panel-busy .meeting-card:hover {
+    background: rgba(168, 19, 60, 0.95); /* #A4133C - Orta bordo */
+    border-color: rgba(193, 24, 74, 0.3); /* #C9184A - Açık bordo */
+}
+
+/* MEŞGUL Panel scrollbar */
+.slide-panel-busy .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #FF4D6D; /* En açık pembe */
+    border-radius: 100px;
+}
+
+.slide-panel-busy .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #FF4D6D; /* En açık pembe */
+}
+
+/* MEŞGUL Panel bağlantı çizgileri */
+.slide-panel-busy .meeting-card:not(:last-child)::after {
+    background: #FF4D6D; /* En açık pembe */
+}
+
+.slide-panel-busy .meeting-card:hover::after {
+    background: #FF4D6D; /* En açık pembe */
+}
+
+/* MEŞGUL Panel başlık yazıları */
+.slide-panel-busy .title-shadow {
+    color: #FFFFFF; /* Tam beyaz */
+}
+
+/* MEŞGUL Detaylar Paneli kartları */
+.slide-panel-busy .neo-card {
+    background: rgba(128, 15, 47, 0.95); /* #800F2F - Koyu bordo */
+    border: 1px solid rgba(168, 19, 60, 0.3); /* #A4133C - Orta bordo */
+    box-shadow: 0 4px 6px rgba(89, 13, 34, 0.2); /* #590D22 - En koyu bordo */
+    border-radius: 16px;
+    padding: 14px;
+    backdrop-filter: blur(10px);
+}
+
+/* MEŞGUL Detaylar Paneli başlıkları */
+.slide-panel-busy .neo-card h3 {
+    color: rgba(255, 77, 109, 0.9); /* #FF4D6D - En açık pembe */
+    font-size: 0.875rem;
+    margin-bottom: 4px;
+}
+
+/* MEŞGUL Detaylar Paneli içerik */
+.slide-panel-busy .neo-card p {
+    color: #FFFFFF;
+    font-size: 1rem;
+}
+
+/* MEŞGUL Detaylar Paneli organizatör maili */
+.slide-panel-busy .neo-card p.text-blue-400 {
+    color: #FF758F; /* Açık pembe */
+}
+
+/* MEŞGUL Detaylar Paneli hover efekti */
+.slide-panel-busy .neo-card:hover {
+    background: rgba(168, 19, 60, 0.95); /* #A4133C - Orta bordo */
+    border-color: rgba(193, 24, 74, 0.3); /* #C9184A - Açık bordo */
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+/* MEŞGUL Detaylar Paneli kapatma butonu */
+.slide-panel-busy button {
+    color: #FFFFFF;
+    transition: color 0.3s ease;
+}
+
+.slide-panel-busy button:hover {
+    color: #FF4D6D; /* En açık pembe */
+}
+
+/* Yükleme Butonu Stili */
+.install-button {
+    display: block !important; /* Görünürlüğü zorla */
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 24px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    font-size: 0.875rem;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.install-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateX(-50%) translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.install-button:active {
+    transform: translateX(-50%) translateY(0);
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Standalone modda butonu gizle */
+@media all and (display-mode: standalone) {
+    .install-button {
+        display: none !important;
+    }
+}

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="busy OR NOT - Toplantı odası durumunu gösteren uygulama">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#590D22" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#590D22" media="(prefers-color-scheme: dark)">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="busyornot">
+    
+    <!-- iOS Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="busyornot">
+    <meta name="apple-touch-fullscreen" content="yes">
+    
+    <!-- Android Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="busyornot">
+    <meta name="theme-color" content="#590D22">
+    <meta name="background-color" content="#590D22">
+
+    <!-- PWA manifest -->
+    <link rel="manifest" href="/busyornot/manifest.json">
+    
+    <!-- PWA Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/busyornot/images/busyornot192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/busyornot/images/busyornot512.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/busyornot/images/busyornot192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/busyornot/images/busyornot512.png">
+    <link rel="apple-touch-startup-image" href="/busyornot/images/busyornot512.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/busyornot/images/favicon.png">
+    
+    <title>busy OR NOT</title>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/busyornot/css/output.css">
+    <link rel="stylesheet" href="/busyornot/css/special.css">
+    
+    <!-- PWA Installation Prompt -->
+    <script>
+        let deferredPrompt = null;
+        let installButton = null;
+
+        // DOM yüklendiğinde
+        document.addEventListener('DOMContentLoaded', () => {
+            installButton = document.querySelector('#installButton');
+            if (installButton) {
+                installButton.style.display = 'none';
+            }
+        });
+
+        // PWA Yükleme Mantığı
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Promptu hemen sakla
+            deferredPrompt = e;
+            console.log('[beforeinstallprompt] Olay tetiklendi ve prompt saklandı');
+            
+            // Mini-infobar'ı engelle
+            e.preventDefault();
+            
+            // Yükleme butonunu göster
+            installButton = document.querySelector('#installButton');
+            if (installButton) {
+                installButton.style.display = 'block';
+                console.log('[beforeinstallprompt] Yükleme butonu gösterildi');
+            }
+        });
+
+        // Yükleme butonu tıklandığında
+        async function installPWA() {
+            console.log('[installPWA] Yükleme butonu tıklandı');
+            installButton = document.querySelector('#installButton');
+            
+            // Tarayıcı kontrolü
+            const userAgent = navigator.userAgent;
+            const isChrome = /Chrome/i.test(userAgent) && !/Edge|Edg/i.test(userAgent);
+            const isAndroid = /Android/i.test(userAgent);
+            const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
+            
+            console.log('[installPWA] Tarayıcı bilgileri:', {
+                userAgent,
+                isChrome,
+                isAndroid,
+                isIOS,
+                deferredPromptExists: !!deferredPrompt
+            });
+
+            // PWA yükleme kriterlerini kontrol et
+            const criteria = {
+                'Service Worker': 'serviceWorker' in navigator,
+                'HTTPS/Localhost': window.location.protocol === 'https:' || window.location.hostname === 'localhost' || window.location.hostname.match(/^192\.168\./),
+                'Manifest': !!document.querySelector('link[rel="manifest"]'),
+                'Display Mode': window.matchMedia('(display-mode: browser)').matches,
+                'Not Installed': !window.matchMedia('(display-mode: standalone)').matches,
+                'Is Chrome': isChrome,
+                'Is Android': isAndroid,
+                'Has Prompt': !!deferredPrompt
+            };
+            
+            console.log('[installPWA] PWA Yükleme Kriterleri:', criteria);
+
+            // Zaten yüklü mü kontrol et
+            if (window.matchMedia('(display-mode: standalone)').matches) {
+                console.log('[installPWA] Uygulama zaten yüklü');
+                alert('Uygulama zaten yüklü.');
+                if (installButton) {
+                    installButton.style.display = 'none';
+                }
+                return;
+            }
+
+            // iOS için özel kontrol
+            if (isIOS) {
+                alert('iOS cihazlarda yüklemek için Safari tarayıcısını kullanın ve "Ana Ekrana Ekle" seçeneğini seçin.');
+                return;
+            }
+
+            // Android ama Chrome değil
+            if (isAndroid && !isChrome) {
+                alert('Uygulamayı yüklemek için Chrome tarayıcısını kullanın.');
+                return;
+            }
+
+            if (!deferredPrompt) {
+                console.log('[installPWA] deferredPrompt bulunamadı');
+                
+                if (isAndroid && isChrome) {
+                    // PWA kriterlerini kontrol et
+                    const allCriteriaMet = Object.values(criteria).every(value => value === true);
+                    if (!allCriteriaMet) {
+                        console.log('[installPWA] Bazı kriterler karşılanmadı:', 
+                            Object.entries(criteria)
+                                .filter(([_, value]) => !value)
+                                .map(([key]) => key)
+                        );
+                        alert('PWA yükleme kriterleri karşılanmadı. Lütfen:\n1. Chrome tarayıcısını kullandığınızdan emin olun\n2. Sayfayı yenileyin\n3. Birkaç saniye bekleyin');
+                    } else {
+                        alert('Lütfen sayfayı yenileyin ve 5-10 saniye bekledikten sonra tekrar deneyin.');
+                    }
+                } else {
+                    alert('Yükleme şu anda mümkün değil. Lütfen Chrome tarayıcısını kullanın.');
+                }
+                return;
+            }
+
+            try {
+                console.log('[installPWA] Yükleme promptu gösteriliyor...');
+                await deferredPrompt.prompt();
+                
+                // Kullanıcının yanıtını bekle
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log('[installPWA] Kullanıcı yanıtı:', outcome);
+                
+                if (outcome === 'accepted') {
+                    console.log('[installPWA] Kullanıcı yüklemeyi kabul etti');
+                    alert('Uygulama başarıyla yükleniyor...');
+                } else {
+                    console.log('[installPWA] Kullanıcı yüklemeyi reddetti');
+                }
+            } catch (error) {
+                console.error('[installPWA] Yükleme hatası:', error);
+                alert('Yükleme sırasında bir hata oluştu. Lütfen tekrar deneyin.');
+            } finally {
+                deferredPrompt = null;
+                if (installButton) {
+                    installButton.style.display = 'none';
+                }
+            }
+        }
+
+        // PWA yüklendiğinde
+        window.addEventListener('appinstalled', (e) => {
+            console.log('[appinstalled] PWA başarıyla yüklendi');
+            installButton = document.querySelector('#installButton');
+            if (installButton) {
+                installButton.style.display = 'none';
+            }
+            deferredPrompt = null;
+            alert('Uygulama başarıyla yüklendi!');
+        });
+
+        // Sayfa yüklendiğinde
+        window.addEventListener('load', () => {
+            console.log('[load] Sayfa yüklendi');
+            console.log('[load] Tarayıcı:', navigator.userAgent);
+            console.log('[load] Display Mode:', window.matchMedia('(display-mode: standalone)').matches ? 'standalone' : 'browser');
+            
+            // Manifest kontrolü
+            const manifestLink = document.querySelector('link[rel="manifest"]');
+            if (manifestLink) {
+                fetch(manifestLink.href)
+                    .then(response => response.json())
+                    .then(manifest => {
+                        console.log('[load] Manifest yüklendi:', manifest);
+                    })
+                    .catch(error => {
+                        console.error('[load] Manifest yükleme hatası:', error);
+                    });
+            }
+
+            // Chrome ve Android kontrolü
+            const isChrome = /Chrome/i.test(navigator.userAgent) && !/Edge|Edg/i.test(navigator.userAgent);
+            const isAndroid = /Android/i.test(navigator.userAgent);
+            
+            if (isAndroid && isChrome) {
+                // Birkaç saniye bekleyip butonu göster
+                setTimeout(() => {
+                    if (!window.matchMedia('(display-mode: standalone)').matches) {
+                        if (deferredPrompt) {
+                            installButton.style.display = 'block';
+                            console.log('[load] Yükleme butonu gösterildi (gecikmeli)');
+                        } else {
+                            console.log('[load] deferredPrompt henüz hazır değil');
+                        }
+                    }
+                }, 5000); // 5 saniye bekle
+            }
+        });
+    </script>
+</head>
+<body class="neo-gradient min-h-screen font-poppins text-white">
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <!-- Ana Kart -->
+        <div class="neo-card rounded-3xl p-4 sm:p-6 w-full h-full flex flex-col">
+            <!-- Oda İsmi -->
+            <div class="text-center mb-8">
+                <h1 class="text-xl sm:text-2xl font-bold tracking-wider title-shadow">
+                    ASPENDOS
+                </h1>
+                <div class="h-0.5 w-16 sm:w-24 bg-white mx-auto mt-1"></div>
+            </div>
+
+            <!-- Durum Göstergesi -->
+            <div class="text-center flex-grow flex flex-col justify-center mb-2">
+                <h2 id="statusText" class="text-7xl md:text-9xl font-bold break-words"></h2>
+                
+                <div class="mt-4 flex flex-col items-center">
+                    <!-- MEŞGUL durumu için detaylar butonu -->
+                    <p id="clickToSee" onclick="toggleDetails()" class="hidden text-sm sm:text-base text-white cursor-pointer hover:text-gray-200 transition-colors italic text-shadow mt-4">
+                        detaylar için tıklayın
+                    </p>
+                    <!-- MÜSAİT durumu için gelecek toplantılar butonu -->
+                    <p id="clickToFuture" onclick="toggleFutureEvents()" class="hidden text-sm sm:text-base text-white cursor-pointer hover:text-gray-200 transition-colors italic text-shadow mt-4">
+                        bir sonraki toplantıyı görmek için tıklayın
+                    </p>
+                    <!-- Manuel PWA Yükleme Butonu -->
+                    <button onclick="installPWA()" id="installButton" class="install-button">
+                        <span class="flex items-center justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
+                            Uygulamayı Yükle
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detaylar Paneli (MEŞGUL durumu için) -->
+    <div id="details" class="fixed inset-0 w-full h-full translate-x-full transition-transform duration-300 slide-panel-busy">
+        <div class="h-full p-4 relative max-w-4xl mx-auto">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-sm font-bold mb-2 title-shadow">TOPLANTI DETAYLARI</h2>
+                <button onclick="toggleDetails()" class="text-white transition-colors">
+                    <span class="text-2xl">&times;</span>
+                </button>
+            </div>
+
+            <!-- Detay Kartları -->
+            <div class="space-y-3">
+                <div class="neo-card rounded-lg p-3">
+                    <h3 class="text-sm font-medium mb-1 text-white">Konu</h3>
+                    <p id="eventSummary" class="text-base truncate"></p>
+                </div>
+                <div class="neo-card rounded-lg p-3">
+                    <h3 class="text-sm font-medium mb-1 text-white">Saat</h3>
+                    <p id="eventTime" class="text-base"></p>
+                </div>
+                <div class="neo-card rounded-lg p-3">
+                    <h3 class="text-sm font-medium mb-1 text-white">Organizatör</h3>
+                    <p id="eventCreator" class="text-base text-blue-400"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gelecek Toplantılar Paneli -->
+    <div id="futureEvents" class="fixed inset-0 w-full h-full translate-x-full transition-transform duration-300 slide-panel-available">
+        <div class="h-full flex flex-col p-4">
+            <!-- Üst Kısım -->
+            <div class="flex justify-end mb-4">
+                <button onclick="toggleFutureEvents()" class="text-white transition-colors">
+                    <span class="text-2xl">&times;</span>
+                </button>
+            </div>
+
+            <!-- Geri Sayım -->
+            <div class="bg-black/10 rounded-xl p-3 mb-4">
+                <p class="text-sm font-bold mb-2 title-shadow">BİR SONRAKİ TOPLANTIYA</p>
+                <div class="inline-flex bg-black/20 rounded-lg p-1.5 gap-3">
+                    <div class="flex items-baseline">
+                        <span id="futureHours" class="text-2xl font-bold">00</span>
+                        <span class="text-xs ml-1 font-bold">SA</span>
+                    </div>
+                    <span class="opacity-50">:</span>
+                    <div class="flex items-baseline">
+                        <span id="futureMinutes" class="text-2xl font-bold">00</span>
+                        <span class="text-xs ml-1 font-bold">DK</span>
+                    </div>
+                    <span class="opacity-50">:</span>
+                    <div class="flex items-baseline">
+                        <span id="futureSeconds" class="text-2xl font-bold">00</span>
+                        <span class="text-xs ml-1 font-bold">SN</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Günün Toplantıları -->
+            <div class="bg-black/10 rounded-xl p-3 flex-1">
+                <p class="text-sm font-bold mb-2 title-shadow">GÜNÜN TOPLANTILARI</p>
+                <div class="overflow-x-auto custom-scrollbar h-full flex items-start p-1.5 gap-3">
+                    <div class="flex space-x-4 min-w-max pb-2" id="timelineContainer">
+                        <!-- Timeline içeriği JavaScript ile doldurulacak -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', async function() {
+                try {
+                    // Service Worker'ı kaydet
+                    const registration = await navigator.serviceWorker.register('/busyornot/sw.js', {
+                        scope: '/busyornot/'
+                    });
+                    console.log('[ServiceWorker] Kayıt başarılı, kapsam:', registration.scope);
+                } catch (err) {
+                    console.error('[ServiceWorker] Kayıt başarısız:', err);
+                }
+            });
+        }
+    </script>
+    <script src="/busyornot/js/script.js"></script>
+</body>
+</html>

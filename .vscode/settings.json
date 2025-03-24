@@ -1,0 +1,23 @@
+{
+    "liveServer.settings.port": 5501,
+    "liveServer.settings.https": {
+        "enable": true,
+        "cert": "C:\\Users\\ay\\Desktop\\Skeleton-2.0.4 25Haziran\\localhost+2.pem",
+        "key": "C:\\Users\\ay\\Desktop\\Skeleton-2.0.4 25Haziran\\localhost+2-key.pem",
+        "passphrase": ""
+    },
+    "files.associations": {
+        "*.css": "tailwindcss"
+    },
+    "editor.quickSuggestions": {
+        "strings": true
+    },
+    "tailwindCSS.includeLanguages": {
+        "html": "html",
+        "javascript": "javascript"
+    },
+    "tailwindCSS.emmetCompletions": true,
+    "css.validate": false,
+    "less.validate": false,
+    "scss.validate": false
+}

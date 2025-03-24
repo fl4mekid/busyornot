@@ -1,0 +1,667 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css');
+
+/* Sayfa genel stilleri */
+body {
+    font-family: 'Raleway', sans-serif; /* Yazı tipi */
+    display: flex; /* Flexbox düzeni */
+    justify-content: center; /* İçeriği yatayda ortala */
+    align-items: center; /* İçeriği dikeyde ortala */
+    height: 100vh; /* Yükseklik: Tam ekran yüksekliği */
+    margin: 0; /* Varsayılan kenar boşluklarını kaldır */
+    color: #fff; /* Yazı rengi */
+    background: url('/images/img8.jpg') no-repeat center center fixed; /* Arka plan görseli */
+    background-size: cover; /* Görselin tamamını ekrana sığdır */
+    background-position: center;
+}
+
+@keyframes changeBackground {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Ana konteyner */
+.container {
+    text-align: center; /* Metni ortala */
+    background-color: rgba(0, 0, 0, 0.5); /* Yarı saydam arka plan rengi */
+    padding: 40px; /* İçerik boşluğu */
+    border-radius: 10px; /* Köşe yuvarlama */
+}
+
+/* Oda adı stili */
+.room-name {
+    text-align: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.room-name h6 {
+    text-align: center;
+    color: #fff;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    font-family: 'Lora', sans-serif;
+}
+
+
+/* Durum alanı */
+.status {
+    display: flex; /* Flexbox düzeni */
+    flex-direction: column; /* Kolon düzeni */
+    align-items: center; /* İçeriği ortala */
+}
+
+/* Durum metni */
+.status h1 {
+    font-size: 5em; /* Font boyutu */
+    margin: 0em 0; /* Kenar boşluğu */
+    font-weight: bold; /* Kalın yazı tipi */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Yazı gölgesi */
+}
+
+/* Bilgi ikonu */
+
+/*.status .fa-user-group {
+    font-size: 1.5em; /* Font boyutu */
+/*    cursor: pointer; /* İmleç işareti */
+/*    display: none; /* Başlangıçta gizle */
+/*    margin-bottom: 10px; /* İkonun altına boşluk ekle */
+/*    color: rgb(168, 7, 7);
+    font-size: 3vh;
+    background-color: transparent;
+    position: relative;
+    border: none;
+}
+/* Biz buradayız metni */
+#nextMeetingText {
+    font-weight: normal; /* Kalın olmayan yazı tipi */
+    margin-bottom: 10px; /* Alt kenar boşluğu */
+}
+
+/* Geri sayım alanı */
+.countdown {
+    font-size: 2em; /* Font boyutu */
+    margin-top: 0em; /* Üst kenar boşluğu */
+    font-weight: normal; /* Metin kalınlığını kaldır */
+    display: flex; /* Flexbox düzeni */
+    justify-content: center; /* İçeriği yatayda ortala */
+    align-items: center; /* İçeriği dikeyde ortala */
+    gap: 10px; /* Öğeler arasında boşluk */
+}
+
+.countdown .time-part {
+    background-color: rgba(0, 0, 0, 0.7); /* Arka plan rengi */
+    padding: 0.5em 1em; /* İçerik boşluğu */
+    border-radius: 5px; /* Köşe yuvarlama */
+    color: #fff; /* Yazı rengi */
+    text-align: center;
+}
+
+.countdown .label {
+    font-size: 0.5em; /* Etiket font boyutu */
+    display: block; /* Etiketi blok elemanı yap */
+    margin-top: 0.2em; /* Üst kenar boşluğu */
+}
+
+
+/* Detay paneli */
+.details-panel {
+    position: fixed;
+    right: -400px; /* Başlangıçta ekranın dışında */
+    top: 0;
+    width: 400px;
+    height: 100%;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease;
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 2em;
+    box-sizing: border-box;
+    backdrop-filter: blur(5px); /* Arkaplanı bulanıklaştır */
+    background-color: transparent; /* Arka plan rengi */
+}
+
+/* Panel içeriği */
+.details-panel h2 {
+    font-size: 1.8em;
+    color: rgb(168, 7, 7);
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Lora', sans-serif;
+}
+
+.details-panel .detail-item {
+    position: relative;
+    margin-bottom: 2em; /* Her bir öğe arasına boşluk ekle */
+    padding-left: 2em;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Gölge ekle */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Metin gölgesi ekle */
+}
+
+.details-panel .detail-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 100%;
+    background-color: rgb(168, 7, 7);
+}
+
+.details-panel .detail-item h3 {
+    font-weight: bold;
+    font-size: 1.3em;
+    margin-bottom: 0.5em;
+    position: relative;
+    text-align: center;
+}
+
+.details-panel .detail-item p {
+    font-size: 1.1em;
+    margin: 0.5em 0 0;
+    line-height: 1.5;
+    background-color: transparent;
+    padding: 0.5em;
+    border-radius: 5px;
+    text-align: center;
+}
+p#eventCreator {
+    color: #1e88e5;
+}
+/* Kapatma butonu */
+button {
+    border: none;
+    background: none;
+}
+
+.btn {
+    background-color: transparent;
+    position: relative;
+    border: none;
+}
+
+.fa-x {
+    color: rgb(168, 7, 7);
+    font-size: 3vh;
+}
+
+.btn::after {
+    content: 'KAPAT';
+    position: absolute;
+    top: -130%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: fit-content;
+    height: fit-content;
+    background-color: rgb(168, 7, 7);
+    padding: 0px 4px;
+    border-radius: 5px;
+    transition: .2s linear;
+    transition-delay: .2s;
+    color: white;
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.icon {
+    transform: scale(1.1);
+    transition: .2s linear;
+}
+
+.btn:hover > .icon {
+    transform: scale(1.5);
+}
+
+.btn:hover > .icon path {
+    fill: rgb(168, 7, 7);
+}
+
+.btn:hover::after {
+    visibility: visible;
+    opacity: 1;
+    top: -0%;
+}
+
+/* Açık durumu */
+.details-panel.open {
+    right: 0;
+}
+
+/* İkon sarma alanı */
+.icon-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 1em;
+}
+
+/* Footer */
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-style: italic;
+    font-size: 1em;
+    font-family: 'Quicksand', sans-serif;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+footer p {
+    margin: 0;
+}
+
+footer p span {
+    font-family: 'Raleway', sans-serif;
+    display: block;
+    font-style: italic;
+    color: green; /* İstediğiniz mavi tonunu burada kullanabilirsiniz */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9); /* Hafif bir gölge efekti */
+}
+
+@keyframes pulsate {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.busy {
+    animation: pulsate 1s infinite;
+}
+
+.pulsating {
+    animation: pulsate 1.5s infinite;
+}
+
+@keyframes pulsate {
+    0% {
+        transform: scale(1.5);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1.5);
+    }
+}
+
+.rotating {
+    animation: rotate 2s infinite linear;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.color-changing {
+    animation: colorChange 2s infinite;
+}
+
+@keyframes colorChange {
+    0% {
+        color: red;
+    }
+    50% {
+        color: blue;
+    }
+    100% {
+        color: red;
+    }
+}
+
+.bouncing {
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.blinking {
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+.shaking {
+    animation: shake 0.5s infinite;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+.glowing {
+    animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px red, 0 0 10px red, 0 0 15px red, 0 0 20px red;
+    }
+    to {
+        text-shadow: 0 0 20px red, 0 0 30px red, 0 0 40px red, 0 0 50px red;
+    }
+}
+
+.sliding {
+    animation: slide 2s infinite alternate;
+}
+
+@keyframes slide {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(20px);
+    }
+}
+
+.wobbling {
+    animation: wobble 1s infinite;
+}
+
+@keyframes wobble {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(-5deg);
+    }
+    75% {
+        transform: rotate(5deg);
+    }
+}
+
+.zooming {
+    animation: zoom 1.5s infinite;
+}
+
+@keyframes zoom {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.fading {
+    animation: fade 2s infinite;
+}
+
+@keyframes fade {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.spinning {
+    animation: spin 3s infinite linear;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Zıplama Animasyonu */
+.jumping {
+    animation: jump 1.5s infinite;
+}
+
+@keyframes jump {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-30px);
+    }
+}
+
+/* Dönerek Ölçekleme Animasyonu */
+.spin-scale {
+    animation: spinScale 2s infinite;
+}
+
+@keyframes spinScale {
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+    50% {
+        transform: scale(1.5) rotate(180deg);
+    }
+    100% {
+        transform: scale(1) rotate(360deg);
+    }
+}
+
+/* Yavaşça Solma ve Geri Gelme Animasyonu */
+.fade {
+    animation: fadeInOut 3s infinite;
+}
+
+@keyframes fadeInOut {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+}
+
+/* Sallanma Animasyonu */
+.swinging {
+    animation: swing 2s infinite ease-in-out;
+}
+
+@keyframes swing {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(10deg);
+    }
+    75% {
+        transform: rotate(-10deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+/* Renk Dalgalanma Animasyonu */
+.color-waving {
+    animation: colorWave 3s infinite alternate;
+}
+
+@keyframes colorWave {
+    0% {
+        color: red;
+    }
+    25% {
+        color: orange;
+    }
+    50% {
+        color: yellow;
+    }
+    75% {
+        color: green;
+    }
+    100% {
+        color: blue;
+    }
+}
+
+/* Dalgın Hareket Animasyonu */
+.floating {
+    animation: float 3s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Salınma Animasyonu */
+.wobbling {
+    animation: wobble 1.5s infinite;
+}
+
+@keyframes wobble {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-20px);
+    }
+    50% {
+        transform: translateX(20px);
+    }
+    75% {
+        transform: translateX(-10px);
+    }
+}
+
+/* Pulsing Border Animasyonu */
+.pulsing-border {
+    animation: pulseBorder 2s infinite;
+}
+
+@keyframes pulseBorder {
+    0% {
+        border-width: 2px;
+        border-color: red;
+    }
+    50% {
+        border-width: 5px;
+        border-color: blue;
+    }
+    100% {
+        border-width: 2px;
+        border-color: red;
+    }
+}
+
+/* Sürekli Dönme Animasyonu */
+.continuous-rotation {
+    animation: continuousRotate 3s linear infinite;
+}
+
+@keyframes continuousRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Uçuş Animasyonu */
+.flying {
+    animation: fly 4s infinite;
+}
+
+@keyframes fly {
+    0% {
+        transform: translateY(0) translateX(0);
+    }
+    25% {
+        transform: translateY(-30px) translateX(30px);
+    }
+    50% {
+        transform: translateY(0) translateX(60px);
+    }
+    75% {
+        transform: translateY(30px) translateX(30px);
+    }
+    100% {
+        transform: translateY(0) translateX(0);
+    }
+}
+
+/* Dalgalanma Animasyonu */
+.waving {
+    animation: wave 2.5s infinite;
+}
+
+@keyframes wave {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(20deg);
+    }
+}
+
+/* Işık Saçma Animasyonu */
+.glowing {
+    animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 2px red;
+    }
+    100% {
+        box-shadow: 2px 2px 5px red;
+    }
+}

@@ -1,16 +1,17 @@
-const CACHE_NAME = 'busyornot-v1.0';
+const CACHE_NAME = 'busyornot-v1.1';
+const BASE_PATH = '/busyornot';
 const ASSETS_TO_CACHE = [
-    '/busyornot/',
-    '/busyornot/index.html',
-    '/busyornot/css/special.css',
-    '/busyornot/css/output.css',
-    '/busyornot/js/script.js',
-    '/busyornot/manifest.json',
-    '/busyornot/images/busyornot192.png',
-    '/busyornot/images/busyornot512.png',
-    '/busyornot/images/screenshot-desktop.png',
-    '/busyornot/images/screenshot-mobile.png',
-    '/busyornot/images/favicon.png'
+    '/',
+    '/index.html',
+    '/css/special.css',
+    '/css/output.css',
+    '/js/script.js',
+    '/manifest.json',
+    '/images/busyornot192.png',
+    '/images/busyornot512.png',
+    '/images/screenshot-desktop.png',
+    '/images/screenshot-mobile.png',
+    '/images/favicon.png'
 ];
 
 // CDN Kaynakları
@@ -27,8 +28,9 @@ self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
-                console.log('[ServiceWorker] Önbelleğe alınıyor');
-                return cache.addAll(ASSETS_TO_CACHE);
+                const urlsToCache = ASSETS_TO_CACHE.map(url => BASE_PATH + url);
+                console.log('[ServiceWorker] Caching:', urlsToCache);
+                return cache.addAll(urlsToCache);
             })
     );
     self.skipWaiting();

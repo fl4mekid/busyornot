@@ -1,6 +1,6 @@
 // API Bilgileri
-const API_KEY = 'YOUR_NEW_API_KEY'; // Yeni API anahtarınız
-const CALENDAR_ID = 'YOUR_CALENDAR_ID'; // Yeni Calendar ID'niz
+const API_KEY = 'e7b79d1506cbd17c8f98d6a434118a22f8a508996b888a610250e5e5b5502d5b@group.calendar.google.com'; // Yeni API anahtarınız
+const CALENDAR_ID = 'e7b79d1506cbd17c8f98d6a434118a22f8a508996b888a610250e5e5b5502d5b@group.calendar.google.com'; // Yeni Calendar ID'niz
 const CALENDAR_API_URL = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${API_KEY}`;
 
 // DOM elementleri

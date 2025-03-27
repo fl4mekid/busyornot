@@ -341,7 +341,6 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async function() {
                 try {
-                    // Service Worker'ı kaydet
                     const registration = await navigator.serviceWorker.register('/busyornot/sw.js', {
                         scope: '/busyornot/'
                     });

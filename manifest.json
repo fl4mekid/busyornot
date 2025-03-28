@@ -7,18 +7,30 @@
         "src": "/busyornot/images/busyornot192.png",
         "sizes": "192x192",
         "type": "image/png",
-        "purpose": "any maskable"
+        "purpose": "any"
       },
       {
         "src": "/busyornot/images/busyornot512.png",
         "sizes": "512x512",
         "type": "image/png",
-        "purpose": "any maskable"
+        "purpose": "any"
+      },
+      {
+        "src": "/busyornot/images/busyornot192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "maskable"
+      },
+      {
+        "src": "/busyornot/images/busyornot512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "maskable"
       }
     ],
     "id": "./busyornot/",
     "start_url": "/busyornot/",
-    "scope": "./busyornot/",
+    "scope": "/busyornot/",
     "display": "standalone",
     "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
     "orientation": "portrait",
@@ -48,7 +60,7 @@
     "screenshots": [
       {
         "src": "/busyornot/images/screenshot-desktop.png",
-        "sizes": "1920x1080",
+        "sizes": "1280x720",
         "type": "image/png",
         "form_factor": "wide"
       },

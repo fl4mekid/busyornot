@@ -1,17 +1,17 @@
-const CACHE_NAME = 'busyornot-v1.2';
+const CACHE_NAME = 'busyornot-v1.3';
 const BASE_PATH = '/busyornot';
 const ASSETS_TO_CACHE = [
-    `${BASE_PATH}/`,
-    `${BASE_PATH}/index.html`,
-    `${BASE_PATH}/css/special.css`,
-    `${BASE_PATH}/css/output.css`,
-    `${BASE_PATH}/js/script.js`,
-    `${BASE_PATH}/manifest.json`,
-    `${BASE_PATH}/images/busyornot192.png`,
-    `${BASE_PATH}/images/busyornot512.png`,
-    `${BASE_PATH}/images/screenshot-desktop.png`,
-    `${BASE_PATH}/images/screenshot-mobile.png`,
-    `${BASE_PATH}/images/favicon.png`
+    '/busyornot/',
+    '/busyornot/index.html',
+    '/busyornot/css/special.css',
+    '/busyornot/css/output.css',
+    '/busyornot/js/script.js',
+    '/busyornot/manifest.json',
+    '/busyornot/images/busyornot192.png',
+    '/busyornot/images/busyornot512.png',
+    '/busyornot/images/screenshot-desktop.png',
+    '/busyornot/images/screenshot-mobile.png',
+    '/busyornot/images/favicon.png'
 ];
 
 // CDN Kaynakları
@@ -69,14 +69,6 @@ function isAPIUrl(url) {
 self.addEventListener('fetch', (event) => {
     // API isteklerini bypass et
     if (event.request.url.includes('googleapis.com/calendar')) {
-        event.respondWith(
-            fetch(event.request)
-                .catch(() => {
-                    return new Response(JSON.stringify({ items: [] }), {
-                        headers: { 'Content-Type': 'application/json' }
-                    });
-                })
-        );
         return;
     }
 
@@ -87,7 +79,7 @@ self.addEventListener('fetch', (event) => {
                     return response;
                 }
 
-                return fetch(event.request)
+                return fetch(event.request.clone())
                     .then((networkResponse) => {
                         if (!networkResponse || networkResponse.status !== 200) {
                             return networkResponse;
@@ -103,7 +95,6 @@ self.addEventListener('fetch', (event) => {
                     })
                     .catch((error) => {
                         console.error('[ServiceWorker] Fetch hatası:', error);
-                        // Offline durumunda ana sayfaya yönlendir
                         if (event.request.mode === 'navigate') {
                             return caches.match('/busyornot/index.html');
                         }

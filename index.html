@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="description" content="busy OR NOT - Toplantı odası durumunu gösteren uygulama">
     
-    <!-- Base URL -->
-    <base href="/busyornot/">
-    
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#590D22" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#590D22" media="(prefers-color-scheme: dark)">
@@ -27,23 +24,23 @@
     <meta name="background-color" content="#590D22">
 
     <!-- PWA manifest -->
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="/busyornot/manifest.json">
     
     <!-- PWA Icons -->
-    <link rel="icon" type="image/png" sizes="192x192" href="images/busyornot192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="images/busyornot512.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="images/busyornot192.png">
-    <link rel="apple-touch-icon" sizes="512x512" href="images/busyornot512.png">
-    <link rel="apple-touch-startup-image" href="images/busyornot512.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/busyornot/images/busyornot192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/busyornot/images/busyornot512.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/busyornot/images/busyornot192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/busyornot/images/busyornot512.png">
+    <link rel="apple-touch-startup-image" href="/busyornot/images/busyornot512.png">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="icon" type="image/png" href="/busyornot/images/favicon.png">
     
     <title>busy OR NOT</title>
     
     <!-- Styles -->
-    <link rel="stylesheet" href="css/output.css">
-    <link rel="stylesheet" href="css/special.css">
+    <link rel="stylesheet" href="/busyornot/css/output.css">
+    <link rel="stylesheet" href="/busyornot/css/special.css">
     
     <!-- PWA Installation Prompt -->
     <script>
@@ -344,9 +341,7 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async function() {
                 try {
-                    const registration = await navigator.serviceWorker.register('/busyornot/sw.js', {
-                        scope: '/busyornot/'
-                    });
+                    const registration = await navigator.serviceWorker.register('/busyornot/sw.js');
                     console.log('[ServiceWorker] Kayıt başarılı, kapsam:', registration.scope);
                 } catch (err) {
                     console.error('[ServiceWorker] Kayıt başarısız:', err);

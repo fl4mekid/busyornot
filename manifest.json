@@ -1,41 +1,29 @@
 {
     "name": "busy OR NOT",
     "short_name": "busyornot",
-    "description": "busy OR NOT, bir çalışma zamanı yönetim aracıdır. Bu aracı kullanarak, çalışma zamanınızı daha verimli ve daha etkili bir şekilde yönetebilirsiniz.",
+    "description": "Toplantı odası durumunu gösteren uygulama",
     "icons": [
       {
-        "src": "./images/busyornot192.png",
+        "src": "/busyornot/images/busyornot192.png",
         "sizes": "192x192",
         "type": "image/png",
-        "purpose": "any"
+        "purpose": "any maskable"
       },
       {
-        "src": "./images/busyornot512.png",
+        "src": "/busyornot/images/busyornot512.png",
         "sizes": "512x512",
         "type": "image/png",
-        "purpose": "any"
-      },
-      {
-        "src": "./images/busyornot192.png",
-        "sizes": "192x192",
-        "type": "image/png",
-        "purpose": "maskable"
-      },
-      {
-        "src": "./images/busyornot512.png",
-        "sizes": "512x512",
-        "type": "image/png",
-        "purpose": "maskable"
+        "purpose": "any maskable"
       }
     ],
     "id": "./busyornot/",
-    "start_url": "./busyornot/",
+    "start_url": "/busyornot/",
     "scope": "./busyornot/",
     "display": "standalone",
     "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
     "orientation": "portrait",
-    "theme_color": "#007667",
-    "background_color": "#007667",
+    "theme_color": "#590D22",
+    "background_color": "#590D22",
     "categories": ["business", "productivity"],
     "prefer_related_applications": false,
     "handle_links": "preferred",
@@ -59,18 +47,15 @@
     ],
     "screenshots": [
       {
-        "src": "./images/screenshot-desktop.png",
-        "sizes": "1280x720",
+        "src": "/busyornot/images/screenshot-desktop.png",
+        "sizes": "1920x1080",
         "type": "image/png",
-        "form_factor": "wide",
-        "label": "Masaüstü Görünümü"
+        "form_factor": "wide"
       },
       {
-        "src": "./images/screenshot-mobile.png",
+        "src": "/busyornot/images/screenshot-mobile.png",
         "sizes": "750x1334",
-        "type": "image/png",
-        "form_factor": "narrow",
-        "label": "Mobil Görünümü"
+        "type": "image/png"
       }
     ]
 }

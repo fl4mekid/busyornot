@@ -1,26 +1,43 @@
-const CACHE_NAME = 'busyornot-v1.3';
+const CACHE_NAME = 'busyornot-v1.4';
 const BASE_PATH = '/busyornot';
-const ASSETS_TO_CACHE = [
-    '/busyornot/',
-    '/busyornot/index.html',
-    '/busyornot/css/special.css',
-    '/busyornot/css/output.css',
-    '/busyornot/js/script.js',
-    '/busyornot/manifest.json',
-    '/busyornot/images/busyornot192.png',
-    '/busyornot/images/busyornot512.png',
-    '/busyornot/images/screenshot-desktop.png',
-    '/busyornot/images/screenshot-mobile.png',
-    '/busyornot/images/favicon.png'
-];
 
-// CDN Kaynakları
-const CDN_URLS = [
+// Güvenli kaynaklar
+const SECURE_ORIGINS = [
     'https://cdn.tailwindcss.com',
     'https://fonts.googleapis.com',
     'https://fonts.gstatic.com',
     'https://apis.google.com'
 ];
+
+// Önbelleğe alınacak kaynaklar
+const ASSETS_TO_CACHE = [
+    `${BASE_PATH}/`,
+    `${BASE_PATH}/index.html`,
+    `${BASE_PATH}/css/special.css`,
+    `${BASE_PATH}/css/output.css`,
+    `${BASE_PATH}/js/script.js`,
+    `${BASE_PATH}/manifest.json`,
+    `${BASE_PATH}/images/busyornot192.png`,
+    `${BASE_PATH}/images/busyornot512.png`,
+    `${BASE_PATH}/images/screenshot-desktop.png`,
+    `${BASE_PATH}/images/screenshot-mobile.png`,
+    `${BASE_PATH}/images/favicon.png`
+];
+
+// Güvenli kaynak kontrolü
+function isSecureOrigin(url) {
+    try {
+        const origin = new URL(url).origin;
+        return SECURE_ORIGINS.some(secureOrigin => origin.includes(secureOrigin));
+    } catch (e) {
+        return false;
+    }
+}
+
+// API URL kontrolü
+function isAPIUrl(url) {
+    return url.includes('googleapis.com/calendar');
+}
 
 // Service Worker Kurulumu
 self.addEventListener('install', (event) => {
@@ -55,20 +72,21 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// CDN URL kontrolü
-function isCDNUrl(url) {
-    return CDN_URLS.some(cdnUrl => url.includes(cdnUrl));
-}
-
-// API URL kontrolü
-function isAPIUrl(url) {
-    return url.includes('googleapis.com/calendar');
-}
-
 // Fetch İsteklerini Yakalama
 self.addEventListener('fetch', (event) => {
+    const url = event.request.url;
+
     // API isteklerini bypass et
-    if (event.request.url.includes('googleapis.com/calendar')) {
+    if (isAPIUrl(url)) {
+        return;
+    }
+
+    // Güvenli olmayan kaynakları engelle
+    if (!isSecureOrigin(url) && !url.startsWith(self.location.origin)) {
+        event.respondWith(new Response('Güvenli olmayan kaynak engellendi', {
+            status: 403,
+            statusText: 'Forbidden'
+        }));
         return;
     }
 
@@ -96,7 +114,7 @@ self.addEventListener('fetch', (event) => {
                     .catch((error) => {
                         console.error('[ServiceWorker] Fetch hatası:', error);
                         if (event.request.mode === 'navigate') {
-                            return caches.match('/busyornot/index.html');
+                            return caches.match(`${BASE_PATH}/index.html`);
                         }
                         return new Response('Offline', {
                             status: 503,

@@ -1,11 +1,11 @@
 {
-  "name": "skeleton-2.0.4-25haziran",
+  "name": "busyornot",
   "version": "1.0.0",
-  "description": "busy OR NOT - Toplantı odası durumunu gösteren uygulama",
-  "main": "sw.js",
+  "description": "Toplantı odası durumunu gösteren uygulama",
   "scripts": {
     "build": "postcss ./css/special.css -o ./css/output.css",
-    "watch": "postcss ./css/special.css -o ./css/output.css --watch"
+    "watch": "postcss ./css/special.css -o ./css/output.css --watch",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +14,10 @@
     "autoprefixer": "^10.4.20",
     "postcss": "^8.5.2",
     "postcss-cli": "^10.1.0",
-    "tailwindcss": "^3.3.5"
+    "tailwindcss": "^3.3.5",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "node-fetch": "^2.6.9"
   }
 }

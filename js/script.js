@@ -1,7 +1,5 @@
 // API Bilgileri
-const API_KEY = 'AIzaSyDvNqmKw96e5-NPsV-mHs2y1Q49jSvkwEc';
-const CALENDAR_ID = 'e7b79d1506cbd17c8f98d6a434118a22f8a508996b888a610250e5e5b5502d5b@group.calendar.google.com';
-const CALENDAR_API_URL = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${API_KEY}`;
+const API_URL = 'https://busyornot-api.herokuapp.com/api/events';
 
 // DOM elementleri
 const statusText = document.getElementById('statusText');
@@ -16,23 +14,23 @@ let upcomingEvent = null;
 let autoCloseTimeout;
 const PANEL_TIMEOUT = 60000; // 60 saniye
 
-async function fetchEvents(calendarUrl) {
+async function fetchEvents(apiUrl) {
     try {
-        const response = await fetch(calendarUrl);
+        const response = await fetch(apiUrl);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
         return data.items || [];
     } catch (error) {
-        console.error('Google Calendar API\'ye erişim hatası:', error.message);
+        console.error('API erişim hatası:', error.message);
         return [];
     }
 }
 
 async function updateEvents() {
     try {
-        const events = await fetchEvents(CALENDAR_API_URL);
+        const events = await fetchEvents(API_URL);
         const currentTime = new Date();
 
         currentEvent = events.find(event => {
@@ -222,7 +220,7 @@ function toggleFutureEvents() {
     
     // Panel açıldığında events'leri al ve timeline'ı güncelle
     if (!panel.classList.contains('translate-x-full')) {
-        fetchEvents(CALENDAR_API_URL).then(events => {
+        fetchEvents(API_URL).then(events => {
             if (events && Array.isArray(events)) {
                 updateTimeline(events);
             }

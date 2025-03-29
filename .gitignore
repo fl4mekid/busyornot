@@ -1,0 +1,20 @@
+# Environment variables
+.env
+
+# Dependencies
+node_modules/
+
+# Build output
+css/output.css
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# SSL certificates
+*.pem
+*.key 

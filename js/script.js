@@ -1,5 +1,5 @@
 // API Bilgileri
-const API_URL = 'http://localhost:3000/api/events';
+const API_URL = 'https://fl4mekid.github.io/busyornot/';
 
 // DOM elementleri
 const statusText = document.getElementById('statusText');

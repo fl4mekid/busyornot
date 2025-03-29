@@ -2,29 +2,102 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const fetch = require('node-fetch');
-const app = express();
 
-// CORS ayarları
+const app = express();
+const port = process.env.PORT || 3000;
+
+// CORS ayarları - sadece belirli domainlere izin ver
 app.use(cors({
-    origin: 'https://fl4mekid.github.io',
-    methods: ['GET']
+    origin: ['https://fl4mekid.github.io', 'http://localhost:5500', 'http://127.0.0.1:5500'],
+    methods: ['GET'],
+    optionsSuccessStatus: 200
 }));
+
+// Rate limiting için basit bir middleware
+const rateLimit = {};
+app.use((req, res, next) => {
+    const ip = req.ip;
+    const now = Date.now();
+    
+    if (rateLimit[ip]) {
+        const timeDiff = now - rateLimit[ip].timestamp;
+        if (timeDiff < 1000) { // 1 saniye içinde maksimum istek sayısı
+            rateLimit[ip].count++;
+            if (rateLimit[ip].count > 10) {
+                return res.status(429).json({ error: 'Too many requests' });
+            }
+        } else {
+            rateLimit[ip].count = 1;
+            rateLimit[ip].timestamp = now;
+        }
+    } else {
+        rateLimit[ip] = {
+            count: 1,
+            timestamp: now
+        };
+    }
+    next();
+});
 
 // API endpoint'i
 app.get('/api/events', async (req, res) => {
     try {
-        const response = await fetch(
-            `https://www.googleapis.com/calendar/v3/calendars/${process.env.CALENDAR_ID}/events?key=${process.env.CALENDAR_API_KEY}`
-        );
+        const calendarId = process.env.CALENDAR_ID;
+        const apiKey = process.env.CALENDAR_API_KEY;
+        
+        if (!calendarId || !apiKey) {
+            throw new Error('Calendar ID veya API Key eksik');
+        }
+
+        const timeMin = new Date();
+        const timeMax = new Date(Date.now() + 24 * 60 * 60 * 1000);
+        
+        const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=${apiKey}&timeMin=${timeMin.toISOString()}&timeMax=${timeMax.toISOString()}&singleEvents=true&orderBy=startTime`;
+        
+        const response = await fetch(url);
         const data = await response.json();
-        res.json(data);
+
+        if (!response.ok) {
+            console.error('Google Calendar API Hatası:', data);
+            throw new Error(data.error?.message || 'API hatası');
+        }
+
+        // Hassas bilgileri temizle
+        const sanitizedData = {
+            ...data,
+            items: data.items?.map(event => ({
+                id: event.id,
+                summary: event.summary,
+                start: event.start,
+                end: event.end,
+                creator: { email: event.creator?.email }
+            }))
+        };
+
+        res.json(sanitizedData);
     } catch (error) {
-        console.error('API Error:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        console.error('API Hatası:', error);
+        res.status(500).json({ 
+            error: 'Sunucu hatası',
+            message: process.env.NODE_ENV === 'development' ? error.message : 'Bir hata oluştu'
+        });
     }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+// 404 handler
+app.use((req, res) => {
+    res.status(404).json({ error: 'Sayfa bulunamadı' });
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).json({ 
+        error: 'Sunucu hatası',
+        message: process.env.NODE_ENV === 'development' ? err.message : 'Bir hata oluştu'
+    });
+});
+
+app.listen(port, () => {
+    console.log(`Server ${port} portunda çalışıyor`);
 }); 

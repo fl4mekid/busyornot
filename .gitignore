@@ -5,6 +5,8 @@
 node_modules/
 
 # Build output
+dist/
+build/
 css/output.css
 
 # IDE files
@@ -14,6 +16,10 @@ css/output.css
 # OS files
 .DS_Store
 Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
 
 # SSL certificates
 *.pem

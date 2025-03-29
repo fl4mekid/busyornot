@@ -1,6 +1,6 @@
 // API Bilgileri
-const CALENDAR_ID = 'AIzaSyDvNqmKw96e5-NPsV-mHs2y1Q49jSvkwEc';
-const API_KEY = 'e7b79d1506cbd17c8f98d6a434118a22f8a508996b888a610250e5e5b5502d5b@group.calendar.google.com';
+const CALENDAR_ID = 'e7b79d1506cbd17c8f98d6a434118a22f8a508996b888a610250e5e5b5502d5b@group.calendar.google.com';
+const API_KEY = 'AIzaSyDvNqmKw96e5-NPsV-mHs2y1Q49jSvkwEc';
 
 // DOM elementleri
 const statusText = document.getElementById('statusText');

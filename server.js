@@ -50,6 +50,8 @@ app.get('/api/events', async (req, res) => {
         
         const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=${apiKey}&timeMin=${timeMin.toISOString()}&timeMax=${timeMax.toISOString()}&singleEvents=true&orderBy=startTime`;
         
+        console.log('Google Calendar API isteği yapılıyor:', url);
+        
         const response = await fetch(url);
         const data = await response.json();
 
@@ -58,6 +60,7 @@ app.get('/api/events', async (req, res) => {
             throw new Error(data.error?.message || 'API hatası');
         }
 
+        console.log('Bulunan etkinlik sayısı:', data.items?.length || 0);
         res.json(data);
     } catch (error) {
         console.error('API Hatası:', error);

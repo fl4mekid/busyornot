@@ -1,7 +1,5 @@
 // API Bilgileri
-const API_KEY = 'AIzaSyDvNqmKw96e5-NPsV-mHs2y1Q49jSvkwEc';
-const CALENDAR_ID = 'e7b79d1506cbd17c8f98d6a434118a22f8a508996b888a610250e5e5b5502d5b@group.calendar.google.com';
-const API_URL = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${API_KEY}&timeMin=${new Date().toISOString()}&timeMax=${new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()}&singleEvents=true&orderBy=startTime`;
+const API_URL = 'http://localhost:3000/api/events';
 
 // DOM elementleri
 const statusText = document.getElementById('statusText');
@@ -16,9 +14,9 @@ let upcomingEvent = null;
 let autoCloseTimeout;
 const PANEL_TIMEOUT = 60000; // 60 saniye
 
-async function fetchEvents(apiUrl) {
+async function fetchEvents() {
     try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(API_URL);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -33,7 +31,7 @@ async function fetchEvents(apiUrl) {
 
 async function updateEvents() {
     try {
-        const events = await fetchEvents(API_URL);
+        const events = await fetchEvents();
         console.log('Tüm etkinlikler:', events); // Tüm etkinlikleri logla
         
         const currentTime = new Date();
@@ -235,7 +233,7 @@ function toggleFutureEvents() {
     
     // Panel açıldığında events'leri al ve timeline'ı güncelle
     if (!panel.classList.contains('translate-x-full')) {
-        fetchEvents(API_URL).then(events => {
+        fetchEvents().then(events => {
             if (events && Array.isArray(events)) {
                 updateTimeline(events);
             }
@@ -262,10 +260,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('mousemove', resetAutoCloseTimer);
     document.addEventListener('touchstart', resetAutoCloseTimer);
 });
-
 // Periyodik güncelleme (tek bir setInterval yeterli)
 setInterval(() => {
     updateEvents().catch(error => {
         console.error('Periodic update error:', error);
     });
 }, 5000);
+

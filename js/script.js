@@ -1,5 +1,6 @@
 // API Bilgileri
-const API_URL = 'https://fl4mekid.github.io/busyornot/';
+const CALENDAR_ID = 'AIzaSyDvNqmKw96e5-NPsV-mHs2y1Q49jSvkwEc';
+const API_KEY = 'e7b79d1506cbd17c8f98d6a434118a22f8a508996b888a610250e5e5b5502d5b@group.calendar.google.com';
 
 // DOM elementleri
 const statusText = document.getElementById('statusText');
@@ -16,12 +17,17 @@ const PANEL_TIMEOUT = 60000; // 60 saniye
 
 async function fetchEvents() {
     try {
-        const response = await fetch(API_URL);
+        const timeMin = new Date();
+        const timeMax = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 saat sonrası
+        
+        const url = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${API_KEY}&timeMin=${timeMin.toISOString()}&timeMax=${timeMax.toISOString()}&singleEvents=true&orderBy=startTime`;
+        
+        const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log('API Yanıtı:', data); // API yanıtını logla
+        console.log('API Yanıtı:', data);
         return data.items || [];
     } catch (error) {
         console.error('API erişim hatası:', error.message);

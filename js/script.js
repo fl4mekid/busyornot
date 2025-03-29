@@ -1,5 +1,7 @@
 // API Bilgileri
-const API_URL = 'https://busyornot-api.herokuapp.com/api/events';
+const API_KEY = 'AIzaSyDvNqmKw96e5-NPsV-mHs2y1Q49jSvkwEc';
+const CALENDAR_ID = 'e7b79d1506cbd17c8f98d6a434118a22f8a508996b888a610250e5e5b5502d5b@group.calendar.google.com';
+const API_URL = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${API_KEY}&timeMin=${new Date().toISOString()}&timeMax=${new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()}&singleEvents=true&orderBy=startTime`;
 
 // DOM elementleri
 const statusText = document.getElementById('statusText');
@@ -21,6 +23,7 @@ async function fetchEvents(apiUrl) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
+        console.log('API Yanıtı:', data); // API yanıtını logla
         return data.items || [];
     } catch (error) {
         console.error('API erişim hatası:', error.message);
@@ -31,15 +34,27 @@ async function fetchEvents(apiUrl) {
 async function updateEvents() {
     try {
         const events = await fetchEvents(API_URL);
+        console.log('Tüm etkinlikler:', events); // Tüm etkinlikleri logla
+        
         const currentTime = new Date();
+        console.log('Şu anki zaman:', currentTime); // Şu anki zamanı logla
 
         currentEvent = events.find(event => {
             const eventStartTime = new Date(event.start.dateTime);
             const eventEndTime = new Date(event.end.dateTime);
+            console.log('Etkinlik:', {
+                summary: event.summary,
+                start: eventStartTime,
+                end: eventEndTime,
+                isCurrentEvent: eventStartTime <= currentTime && eventEndTime >= currentTime
+            }); // Her etkinliğin zaman kontrolünü logla
             return eventStartTime <= currentTime && eventEndTime >= currentTime;
         });
 
+        console.log('Mevcut etkinlik:', currentEvent); // Bulunan mevcut etkinliği logla
+
         upcomingEvent = events.find(event => new Date(event.start.dateTime) > currentTime);
+        console.log('Gelecek etkinlik:', upcomingEvent); // Gelecek etkinliği logla
 
         updateStatus();
         

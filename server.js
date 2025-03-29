@@ -6,12 +6,8 @@ const fetch = require('node-fetch');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// CORS ayarları - sadece belirli domainlere izin ver
-app.use(cors({
-    origin: ['https://fl4mekid.github.io', 'http://localhost:5500', 'http://127.0.0.1:5500'],
-    methods: ['GET'],
-    optionsSuccessStatus: 200
-}));
+// CORS ayarları - tüm domainlere izin ver
+app.use(cors());
 
 // Rate limiting için basit bir middleware
 const rateLimit = {};
@@ -62,24 +58,12 @@ app.get('/api/events', async (req, res) => {
             throw new Error(data.error?.message || 'API hatası');
         }
 
-        // Hassas bilgileri temizle
-        const sanitizedData = {
-            ...data,
-            items: data.items?.map(event => ({
-                id: event.id,
-                summary: event.summary,
-                start: event.start,
-                end: event.end,
-                creator: { email: event.creator?.email }
-            }))
-        };
-
-        res.json(sanitizedData);
+        res.json(data);
     } catch (error) {
         console.error('API Hatası:', error);
         res.status(500).json({ 
             error: 'Sunucu hatası',
-            message: process.env.NODE_ENV === 'development' ? error.message : 'Bir hata oluştu'
+            message: error.message
         });
     }
 });

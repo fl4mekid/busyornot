@@ -76,6 +76,7 @@ function updateStatus() {
         statusText.textContent = 'MEŞGUL';
         statusText.className = 'text-7xl md:text-9xl font-bold status-busy animate-pulse drop-shadow-2xl';
         document.body.style.background = 'linear-gradient(135deg, #590D22 50%, #C9184A 120%)';
+        document.body.setAttribute('data-status', 'busy');
         
         document.getElementById('clickToSee').classList.remove('hidden');
         document.getElementById('clickToFuture').classList.add('hidden');
@@ -96,6 +97,7 @@ function updateStatus() {
         statusText.textContent = 'MÜSAİT';
         statusText.className = 'text-7xl md:text-9xl font-bold status-available drop-shadow-2xl';
         document.body.style.background = 'linear-gradient(135deg, #007667 50%, #00d8bd 100%)';
+        document.body.setAttribute('data-status', 'available');
         
         document.getElementById('clickToSee').classList.add('hidden');
         

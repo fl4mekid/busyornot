@@ -346,12 +346,12 @@
     color: #FF4D6D; /* En açık pembe */
 }
 
-/* Yükleme Butonu Stili */
+/* Yükleme Butonu Stili - MÜSAİT durumu için */
 .install-button {
     position: fixed;
     bottom: 1rem;
     right: 1rem;
-    background: rgba(0, 216, 189, 0.15); /* Açık yeşil tonu */
+    background: rgba(0, 216, 189, 0.15);
     border: 1px solid rgba(0, 216, 189, 0.3);
     border-radius: 50%;
     width: 48px;
@@ -378,10 +378,28 @@
 .install-button svg {
     width: 24px;
     height: 24px;
-    color: #48fb00; /* Parlak yeşil */
+    color: #48fb00;
     display: block;
     margin: auto;
     filter: drop-shadow(0 0 2px rgba(72, 251, 0, 0.3));
+}
+
+/* Yükleme Butonu - MEŞGUL durumu için */
+body[data-status="busy"] .install-button {
+    background: rgba(193, 24, 74, 0.15);
+    border: 1px solid rgba(193, 24, 74, 0.3);
+    box-shadow: 0 2px 8px rgba(193, 24, 74, 0.2);
+}
+
+body[data-status="busy"] .install-button:hover {
+    background: rgba(193, 24, 74, 0.25);
+    border-color: rgba(193, 24, 74, 0.4);
+    box-shadow: 0 4px 12px rgba(193, 24, 74, 0.3);
+}
+
+body[data-status="busy"] .install-button svg {
+    color: #FF4D6D;
+    filter: drop-shadow(0 0 2px rgba(255, 77, 109, 0.3));
 }
 
 .install-button span {

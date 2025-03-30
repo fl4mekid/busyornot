@@ -351,8 +351,8 @@
     position: fixed;
     bottom: 1rem;
     right: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 216, 189, 0.15); /* Açık yeşil tonu */
+    border: 1px solid rgba(0, 216, 189, 0.3);
     border-radius: 50%;
     width: 48px;
     height: 48px;
@@ -365,19 +365,23 @@
     transition: all 0.3s ease;
     backdrop-filter: blur(5px);
     z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 216, 189, 0.2);
 }
 
 .install-button:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(0, 216, 189, 0.25);
+    border-color: rgba(0, 216, 189, 0.4);
     transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 216, 189, 0.3);
 }
 
 .install-button svg {
     width: 24px;
     height: 24px;
-    color: #FFFF00;
+    color: #48fb00; /* Parlak yeşil */
     display: block;
     margin: auto;
+    filter: drop-shadow(0 0 2px rgba(72, 251, 0, 0.3));
 }
 
 .install-button span {

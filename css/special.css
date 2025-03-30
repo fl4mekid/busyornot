@@ -348,39 +348,36 @@
 
 /* Yükleme Butonu Stili */
 .install-button {
-    display: block !important; /* Görünürlüğü zorla */
-    opacity: 1 !important;
-    visibility: visible !important;
     position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 12px 24px;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 24px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
+    bottom: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    backdrop-filter: blur(10px);
     transition: all 0.3s ease;
-    font-size: 0.875rem;
+    backdrop-filter: blur(5px);
     z-index: 1000;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .install-button:hover {
-    background: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.4);
-    transform: translateX(-50%) translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
 }
 
-.install-button:active {
-    transform: translateX(-50%) translateY(0);
-    background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.install-button svg {
+    width: 20px;
+    height: 20px;
+    color: white;
+}
+
+.install-button span {
+    display: none;
 }
 
 /* Standalone modda butonu gizle */

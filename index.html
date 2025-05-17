@@ -259,6 +259,14 @@
                     </button>
                 </div>
             </div>
+
+            <!-- Oda ve Lokasyon Listesi -->
+            <div id="locationRoomPanel" class="mt-8">
+                <h2 class="text-lg font-bold mb-2">Lokasyonlar</h2>
+                <ul id="locations" class="mb-4"></ul>
+                <h2 class="text-lg font-bold mb-2">Odalar</h2>
+                <ul id="rooms"></ul>
+            </div>
         </div>
     </div>
 
@@ -349,5 +357,40 @@
         }
     </script>
     <script src="/busyornot/js/script.js"></script>
+    <script>
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2YxOTQyN2Q0MWRlMzQzYjIwOTJkNmQiLCJpYXQiOjE3NDc0ODI5NDcsImV4cCI6MTc0NzU2OTM0N30.LaOl42LN9d53AtISZROfnffr2YkowEoYd2KWm6jguNE'; // Postman'dan aldığınız token
+
+    // Lokasyonları çek
+    fetch('http://localhost:3000/api/v1/locations', {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        const locList = document.getElementById('locations');
+        data.forEach(loc => {
+          const li = document.createElement('li');
+          li.textContent = `${loc.name} - ${loc.address}`;
+          locList.appendChild(li);
+        });
+      });
+
+    // Odaları çek
+    fetch('http://localhost:3000/api/v1/rooms', {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        const roomList = document.getElementById('rooms');
+        data.forEach(room => {
+          const li = document.createElement('li');
+          li.textContent = `${room.name} (${room.locationId.name})`;
+          roomList.appendChild(li);
+        });
+      });
+    </script>
 </body>
 </html>
